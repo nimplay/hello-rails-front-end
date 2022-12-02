@@ -1,27 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [cheers, setCheers] = useState([]);
+  const cheerUrl = 'http://localhost:3000/api/v1/cheers';
+
+  const fetchCheers = async () => {
+    const response = await fetch(cheerUrl, { mode: 'cors' });
+    const data = await response.json();
+    setCheers(data);
+  };
+  useEffect(() => {
+    fetchCheers();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit
-          {' '}
-          <code>src/App.js</code>
-          {' '}
-          and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div className="row">
+      {cheers.map((cheer) => <h1 key={cheers.id}>{cheer.greeting}</h1>)}
     </div>
   );
 }
